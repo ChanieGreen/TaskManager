@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace TaskManager.Data
             _connectionString = connectionString;
         }
 
-        public void AddTask (Chore task)
+        public void AddTask(Chore task)
         {
             using (var context = new TaskContext(_connectionString))
             {
@@ -34,14 +35,21 @@ namespace TaskManager.Data
             }
         }
 
-        public void UpdateTaskStatus (int id, Status status,User user)
+        public void UpdateTaskStatus(int id, Status status, User user)
         {
             using (var context = new TaskContext(_connectionString))
             {
-                var task = GetTaskById(id);
-                task.UserId = user.Id;
-                task.Status = status;
-                context.SaveChanges();
+                //var task = GetTaskById(id);
+                //task.UserId = user.Id;
+                //task.Status = status;
+                //context.SaveChanges();
+
+                context.Database.ExecuteSqlCommand(
+                    "UPDATE Tasks SET UserId = @userId, Status = @status WHERE Id = @id",
+                    new SqlParameter("@userId", user.Id),
+                    new SqlParameter("@id", id),
+                    new SqlParameter("@status", status)
+                    );
             }
         }
 
@@ -49,7 +57,7 @@ namespace TaskManager.Data
         {
             using (var context = new TaskContext(_connectionString))
             {
-                return context.Tasks.FirstOrDefault(t => t.Id == id);
+                return context.Tasks.Include(t => t.User).FirstOrDefault(t => t.Id == id);
             }
         }
 

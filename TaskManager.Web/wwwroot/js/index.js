@@ -10,7 +10,8 @@
     });
 
     connection.on("AddTask", (task) => {
-        $('#task').append(`<tr id="task-${task.id}><td>${task.title}</td><td><button class="btn btn-info" data-id="${task.id}">I'm doing this one!</button></td></tr>`)
+        console.log("hello");
+        $('#tasks').append(`<tr id="task-${task.id}"><td>${task.title}</td><td><button class="btn btn-info" data-id="${task.id}">I'm doing this one!</button></td></tr>`)
     });
 
     $('#tasks').on('click', '.btn-info', function () {
@@ -28,10 +29,12 @@
     });
 
     connection.on("MyTask", (task) => {
+        console.log("hello");
         $(`#task-${task.id}`).find('td:eq(1)').html(`<td><button class="btn btn-success" data-id="${task.id}">I'm done!</button></td>`);
     });
 
     connection.on("UpdateTask", (task) => {
+        console.log("hello");
         $(`#task-${task.id}`).find('td:eq(1)').html(`<td><button class="btn btn-warning" disabled>${task.user.name} is working on this</button></td>`);
     });
 });
