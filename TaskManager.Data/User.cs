@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace TaskManager.Data
@@ -10,6 +11,7 @@ namespace TaskManager.Data
         public string Email { get; set; }
         public string PasswordHash { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<Chore> Tasks { get; set; }
     }
 }

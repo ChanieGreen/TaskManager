@@ -49,12 +49,5 @@ namespace TaskManager.Web
             }
             
         }
-
-        public void GetTasks()
-        {
-            var db = new TaskRepository(_connectionString);
-            var userRepo = new UserRepository(_connectionString);
-            Clients.Caller.SendAsync("UpdateTaskes", new { tasks = db.GetTasksThatAreNotDone(), user = userRepo.GetByEmail(Context.User.Identity.Name) });
-        }
     }
 }

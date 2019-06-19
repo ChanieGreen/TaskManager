@@ -6,11 +6,11 @@
 
     $('#add-task-button').on('click', function () {
         const title = $('#title').val();
+        $('#title').val('');
         connection.invoke("AddNewTask", { title })
     });
 
     connection.on("AddTask", (task) => {
-        console.log("hello");
         $('#tasks').append(`<tr id="task-${task.id}"><td>${task.title}</td><td><button class="btn btn-info" data-id="${task.id}">I'm doing this one!</button></td></tr>`)
     });
 
